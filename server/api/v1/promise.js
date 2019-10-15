@@ -63,6 +63,14 @@ api.post('/create/', (req, res) => {
         username,
       }
     }).then(user => {
+      // create user if it doesn't exist
+      if (!user) {
+        return Users.create({ username })
+      }
+      else {
+        return Promise.resolve(user)
+      }
+    }).then(user => {
       if (user) {
         user.createPromise(parsedPromise)
           .then(function(prom) {
